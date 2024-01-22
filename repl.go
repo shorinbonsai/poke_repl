@@ -10,7 +10,7 @@ import (
 type consoleCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
 }
 
 func cleanInput(text string) []string {
@@ -26,6 +26,16 @@ func getCommands() map[string]consoleCommand {
 			description: "Displays a help message",
 			callback:    commandHelp,
 		},
+		"map": {
+			name:        "map",
+			description: "List some location areas",
+			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "List previous location areas",
+			callback:    commandMapb,
+		},
 		"exit": {
 			name:        "exit",
 			description: "Exit the Pokedex",
@@ -34,7 +44,7 @@ func getCommands() map[string]consoleCommand {
 	}
 }
 
-func Start(in io.Reader, out io.Writer) {
+func Start(cfg *config, in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 	for {
 		fmt.Print("Pokedex > ")
@@ -43,10 +53,10 @@ func Start(in io.Reader, out io.Writer) {
 		if len(text) == 0 {
 			continue
 		}
-		commandName := string(text[0])
+		commandName := text[0]
 		command, exists := getCommands()[commandName]
 		if exists {
-			err := command.callback()
+			err := command.callback(cfg)
 			if err != nil {
 				fmt.Println(err)
 			}
