@@ -14,7 +14,7 @@ type config struct {
 
 func main() {
 	cfg := config{
-		pokeapiClient: pokeapi.NewClient(time.Hour),
+		pokeapiClient: pokeapi.NewClient(time.Hour / 2),
 	}
 	Start(&cfg, os.Stdin, os.Stdout)
 }

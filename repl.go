@@ -10,7 +10,7 @@ import (
 type consoleCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, ...string) error
 }
 
 func cleanInput(text string) []string {
@@ -36,6 +36,11 @@ func getCommands() map[string]consoleCommand {
 			description: "List previous location areas",
 			callback:    commandMapb,
 		},
+		"explore": {
+			name:        "explore {location area}",
+			description: "List encountered pokemon in a location area",
+			callback:    commandExplore,
+		},
 		"exit": {
 			name:        "exit",
 			description: "Exit the Pokedex",
@@ -54,9 +59,13 @@ func Start(cfg *config, in io.Reader, out io.Writer) {
 			continue
 		}
 		commandName := text[0]
+		args := []string{}
+		if len(text) > 1 {
+			args = text[1:]
+		}
 		command, exists := getCommands()[commandName]
 		if exists {
-			err := command.callback(cfg)
+			err := command.callback(cfg, args...)
 			if err != nil {
 				fmt.Println(err)
 			}
