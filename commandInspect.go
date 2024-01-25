@@ -23,6 +23,7 @@ func commandInspect(cfg *config, args ...string) error {
 	for _, stat := range pokemon.Stats {
 		fmt.Printf(" - %s: %d\n", stat.Stat.Name, stat.BaseStat)
 	}
+	fmt.Println("Types:")
 	for _, typeEntry := range pokemon.Types {
 		fmt.Printf(" - %s\n", typeEntry.Type.Name)
 	}

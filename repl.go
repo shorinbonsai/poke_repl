@@ -51,6 +51,11 @@ func getCommands() map[string]consoleCommand {
 			description: "Inspect a pokemon if it exists in the pokedex",
 			callback:    commandInspect,
 		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "List all pokemon in the pokedex",
+			callback:    commandPokedex,
+		},
 		"exit": {
 			name:        "exit",
 			description: "Exit the Pokedex",
