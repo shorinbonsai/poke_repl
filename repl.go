@@ -1,10 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"io"
 	"strings"
+
+	"github.com/chzyer/readline"
 )
 
 type consoleCommand struct {
@@ -65,11 +66,26 @@ func getCommands() map[string]consoleCommand {
 }
 
 func Start(cfg *config, in io.Reader, out io.Writer) {
-	scanner := bufio.NewScanner(in)
+	rl, err := readline.NewEx(&readline.Config{
+		Prompt:      "Pokedex > ",
+		HistoryFile: "/tmp/readline.tmp",
+	})
+	if err != nil {
+		panic(err)
+	}
+	defer rl.Close()
+	// scanner := bufio.NewScanner(in)
 	for {
-		fmt.Print("Pokedex > ")
-		scanner.Scan()
-		text := cleanInput(scanner.Text())
+		line, err := rl.Readline()
+		if err == readline.ErrInterrupt {
+			break
+		} else if err == io.EOF {
+			break
+		}
+		// fmt.Print("Pokedex > ")
+		// scanner.Scan()
+		// text := cleanInput(scanner.Text())
+		text := cleanInput(line)
 		if len(text) == 0 {
 			continue
 		}
