@@ -37,9 +37,14 @@ func getCommands() map[string]consoleCommand {
 			callback:    commandMapb,
 		},
 		"explore": {
-			name:        "explore {location area}",
+			name:        "explore {location_area}",
 			description: "List encountered pokemon in a location area",
 			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch {pokemon_name}",
+			description: "Try to catch a pokemon and add to pokedex",
+			callback:    commandCatch,
 		},
 		"exit": {
 			name:        "exit",
